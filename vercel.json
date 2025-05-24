@@ -3,8 +3,7 @@
   "functions": {
     "server.js": {
       "maxDuration": 30,
-      "memory": 1024,
-      "runtime": "nodejs18.x"
+      "memory": 1024
     }
   },
   "routes": [
@@ -32,5 +31,6 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "regions": ["sin1"]
+  "regions": ["sin1"],
+  "nodeVersion": "18.x"
 }
