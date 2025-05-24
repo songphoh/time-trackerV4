@@ -31,6 +31,5 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "regions": ["sin1"],
-  "nodeVersion": "18.x"
+  "regions": ["sin1"]
 }
