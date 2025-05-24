@@ -1,25 +1,37 @@
 {
   "version": 2,
+  "functions": {
+    "server.js": {
+      "maxDuration": 30
+    },
+    "api/*.js": {
+      "maxDuration": 30
+    }
+  },
   "routes": [
     {
       "src": "/health",
-      "dest": "/server.js"
+      "dest": "/api/index.js"
     },
     {
       "src": "/api/(.*)",
-      "dest": "/server.js"
+      "dest": "/api/index.js"
     },
     {
       "src": "/debug/(.*)",
-      "dest": "/server.js"
+      "dest": "/api/index.js"
     },
     {
       "src": "/admin/(.*)",
-      "dest": "/server.js"
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|ico|svg|html))",
+      "dest": "/public/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/server.js"
+      "dest": "/api/index.js"
     }
   ],
   "env": {

@@ -1,4 +1,4 @@
-// db-pool-optimized.js - แทนที่ไฟล์เดิม
+// db-pool-optimized.js - สำหรับ Vercel deployment
 const { Pool } = require('pg');
 
 let pool = null;
@@ -8,7 +8,7 @@ function createPool() {
     const connectionString = process.env.DATABASE_URL || 
       "postgresql://postgres.ofzfxbhzkvrumsgrgogq:%40Songphon544942@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres";
     
-    console.log('🚀 Creating new database pool...');
+    console.log('🚀 Creating new database pool for Vercel...');
     
     pool = new Pool({
       connectionString,
@@ -16,14 +16,14 @@ function createPool() {
         rejectUnauthorized: false,
         checkServerIdentity: () => undefined
       },
-      // ⭐ ปรับค่าสำหรับ production
-      max: 20,                    // เพิ่มจาก 1 เป็น 20
-      min: 2,                     // รักษา connection ขั้นต่ำ
-      idleTimeoutMillis: 30000,   // timeout ของ idle connection
-      connectionTimeoutMillis: 15000, // timeout สำหรับสร้าง connection ใหม่
-      statement_timeout: 30000,   // timeout สำหรับ query
-      query_timeout: 30000,       // query timeout
-      application_name: 'time-tracker',
+      // ⭐ ปรับค่าสำหรับ Vercel Serverless
+      max: 3,                     // ลดจาก 20 เป็น 3 สำหรับ serverless
+      min: 0,                     // ไม่เก็บ connection ขั้นต่ำ
+      idleTimeoutMillis: 10000,   // ลดเวลา idle timeout
+      connectionTimeoutMillis: 10000, // ลด connection timeout
+      statement_timeout: 10000,   // ลด statement timeout
+      query_timeout: 10000,       // ลด query timeout
+      application_name: 'time-tracker-vercel',
       
       // เพิ่มการตั้งค่า timezone
       timezone: 'Asia/Bangkok'
@@ -32,7 +32,7 @@ function createPool() {
     // Error handling
     pool.on('error', (err, client) => {
       console.error('❌ Unexpected error on idle client:', err);
-      process.exit(-1);
+      // ไม่ใช้ process.exit ใน serverless
     });
     
     pool.on('connect', (client) => {
@@ -47,7 +47,7 @@ function createPool() {
       console.log('↩️ Client released back to pool');
     });
     
-    // Test connection
+    // Test connection (ไม่รอผลลัพธ์ในการเริ่มต้น)
     pool.query('SELECT NOW()')
       .then(() => {
         console.log('✅ Database pool initialized successfully');
