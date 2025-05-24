@@ -8,7 +8,7 @@ const path = require('path');
 const axios = require('axios');
 
 // ใช้ optimized db pool
-const db = require('./db-adapter');
+const db = require('./db-pool-optimized');
 
 // กำหนดโซนเวลา
 process.env.TZ = 'Asia/Bangkok';
@@ -77,7 +77,7 @@ async function getEmployeesFromCache() {
   const now = Date.now();
   if (!employeeCache || (now - employeeCacheTime) > CACHE_DURATION) {
     console.log('🔄 Refreshing employee cache...');
-    const result = await const db = require('./db-adapter');(db.preparedStatements.GET_ACTIVE_EMPLOYEES, ['active']);
+    const result = await db.query(db.preparedStatements.GET_ACTIVE_EMPLOYEES, ['active']);
     employeeCache = result.rows.map(e => [e.full_name, e.emp_code]);
     employeeCacheTime = now;
   }
