@@ -1,35 +1,40 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/health",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/debug/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ],
   "functions": {
     "server.js": {
       "maxDuration": 30,
       "memory": 1024,
-      "runtime": "nodejs20.x",
-      "maxLambdaSize": "50mb"
+      "runtime": "nodejs18.x"
     }
   },
-  "rewrites": [
-    {
-      "source": "/health",
-      "destination": "/server.js"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "/server.js"
-    },
-    {
-      "source": "/debug/(.*)",
-      "destination": "/server.js"
-    },
-    {
-      "source": "/admin/(.*)",
-      "destination": "/server.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/server.js"
-    }
-  ],
   "env": {
     "NODE_ENV": "production"
   },
